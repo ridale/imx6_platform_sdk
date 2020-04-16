@@ -1,5 +1,13 @@
 # i.MX 6 Series Platform SDK
 
+Added the sabre patches from https://community.nxp.com/thread/304517
+
+build assuming that arm-none-* is in your path
+```
+./tools/build_sdk -t mx6dq -b sabre_lite -v a
+```
+
+
 _This is a archived copy of the i.MX 6 Series Platform SDK. The last released version was 1.1 from 04-Feb-2013. Development was discontinued after this release, so the SDK does not support more recent i.MX 6 series SoCs. However, the bare metal drivers in this SDK may prove useful for developers using any i.MX device, as the IP is mostly common. There is also code that may be useful for managing Cortex-A core peripherals._
 
 The purposes of the Platform SDK for the i.MX 6 Series are to:
