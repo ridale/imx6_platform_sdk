@@ -89,8 +89,8 @@ SOURCES += \
 	audio/src/wm8958_dac.c \
 	audio/src/sgtl5000.c \
 	audio/src/imx_esai.c \
-    caam/src/caam.c \
-    camera/src/smd_sensor.c \
+    	caam/src/caam.c \
+    	camera/src/smd_sensor.c \
 	enet/src/enet_drv.c \
 	flexcan/src/can.c \
 	gpmi/src/bch_ecc.c \

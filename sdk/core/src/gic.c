@@ -54,7 +54,10 @@ static inline gicd_t * gic_get_gicd(void)
 
 static inline gicc_t * gic_get_gicc(void)
 {
-    uint32_t base = get_arm_private_peripheral_base() + kGICCBaseOffset;
+	//555555555555555555555555
+    uint32_t base = get_arm_private_peripheral_base();
+	//printf("private_peripheral_base = 0x%p\n", base);
+	base += kGICCBaseOffset;
     return (gicc_t *)base;
 }
 

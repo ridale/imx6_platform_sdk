@@ -151,6 +151,10 @@ endif
 # being used. Other distributions of gcc may work, but have not been tested.
 
 # Set compiler version defaults.
+
+#CROSS_COMPILE = /opt/CodeSourcery/Sourcery_CodeBench_Lite_for_ARM_EABI/bin/arm-none-eabi-
+#CROSS_COMPILE = /scratch/jbrown/arm-eabi/install/arm-none-eabi/bin/arm-none-eabi-
+#CROSS_COMPILE = armv7l-timesys-linux-gnueabi-
 CROSS_COMPILE = arm-none-eabi-
 
 # Strip off the trailing '-', resulting in arm-none-eabi

@@ -45,12 +45,15 @@
 const char g_ar8031_test_name[] = "RGMII AR8031 G-Ethernet Test";
 const char g_KSZ9021RN_test_name[] = "RGMII KSZ9021RN G-Ethernet Test";
 
-#if defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI) || (defined(CHIP_MX6SL) && defined(BOARD_EVK))
+//555555555555555555555555555555555
+#if defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI) || (defined(CHIP_MX6SL) && defined(BOARD_EVK)) 
 #define ENET_PHY_ADDR 1
 #endif
 
 #if defined(BOARD_EVB)
 #define ENET_PHY_ADDR 0
+#elif defined(BOARD_SABRE_LITE)
+#define ENET_PHY_ADDR 6
 #endif
 
 #ifndef ENET_PHY_ADDR
@@ -64,6 +67,9 @@ static unsigned char mac_addr0[6] = { 0x00, 0x04, 0x9f, 0x00, 0x00, 0x01 };
 extern int imx_enet_mii_type(imx_enet_priv_t * dev, enum imx_mii_type mii_type);
 
 extern void imx_enet_iomux(void);
+#ifdef BOARD_SABRE_LITE
+extern void imx_enet_iomux_reconfig(void);
+#endif
 extern void imx_KSZ9021RN_reset(void);
 extern void imx_ar8031_reset(void);
 
@@ -312,6 +318,7 @@ test_return_t KSZ9021RN_test_main(void)
     int pkt_len_send = 0, pkt_len_recv = 0, ret = 0, i;
     unsigned int enet_events = 0;
     const char* indent = menu_get_indent();
+    unsigned char try = 100;
 
     // Enet loopback test
     printf("\n%sWould you like to run the Ethernet loopback test?\n", indent);
@@ -321,15 +328,34 @@ test_return_t KSZ9021RN_test_main(void)
         return TEST_BYPASSED;
 
     //setup iomux for ENET
-    imx_KSZ9021RN_reset();
     imx_enet_iomux();
+    imx_KSZ9021RN_reset();
+#ifdef BOARD_SABRE_LITE
+	imx_enet_iomux_reconfig();
+#endif
 
     //init enet0
-    imx_enet_init(dev0, ENET_BASE_ADDR, 0);
+    imx_enet_init(dev0, ENET_BASE_ADDR, ENET_PHY_ADDR);
     imx_enet_mii_type(dev0, RGMII);
     //init phy0.
     imx_enet_phy_init(dev0);
 
+    while (try--)
+    {
+#if CHIP_MX6DQ || CHIP_MX6SDL
+        uint32_t status = imx_enet_get_phy_status(dev0);
+        if (status & ENET_STATUS_LINK_ON)
+#elif CHIP_MX6SL
+        uint32_t status = imx_fec_get_phy_status(dev0);
+        if (status & FEC_STATUS_LINK_ON)
+#endif
+        {
+            printf("Ethernet link is up!\n");
+            break;
+        }
+
+        hal_delay_us(100000); // 100 ms
+    }
     //check phy status
     if (!(dev0->status & ENET_STATUS_LINK_ON)) {
         printf("ENET link status check fail\n");

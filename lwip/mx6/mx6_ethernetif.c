@@ -61,10 +61,15 @@
 
 #if CHIP_MX6DQ || CHIP_MX6SDL
 //! @todo Fix me to make me board-independant!! Put me in board lib.
-#if defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI)
+
+//55555555555555555555555555
+//#if defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI)
+#if defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI) 
 #define ENET_PHY_ADDR 1
 #elif defined(BOARD_EVB)
 #define ENET_PHY_ADDR 0
+#elif defined(BOARD_SABRE_LITE)
+#define ENET_PHY_ADDR 6
 #else
 #error Unknown ENET_PHY_ADDR
 #endif
@@ -92,6 +97,9 @@ imx_enet_priv_t *g_en0 = &enet0;
 
 extern int imx_enet_mii_type(imx_enet_priv_t * dev, enum imx_mii_type mii_type);
 extern void imx_enet_iomux(void);
+#ifdef BOARD_SABRE_LITE
+extern void imx_enet_iomux_reconfig(void);
+#endif
 extern void imx_enet_phy_reset(void);
 
 #elif CHIP_MX6SL
@@ -125,7 +133,9 @@ void init_enet(void)
     // setup iomux for ENET
     imx_enet_iomux();
     imx_enet_phy_reset();
-
+#ifdef BOARD_SABRE_LITE
+	imx_enet_iomux_reconfig();
+#endif
     // init enet0
     imx_enet_init(g_en0, ENET_BASE_ADDR, ENET_PHY_ADDR);
     imx_enet_mii_type(g_en0, RGMII);

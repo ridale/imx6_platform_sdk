@@ -73,7 +73,9 @@ extern int cpu_wp_test(void);
 #ifdef CHIP_MX6DQ
 extern int sata_test(void);
 #endif
-#if defined(BOARD_EVB) || defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI) 
+//5555555555555555
+//#if defined(BOARD_EVB) || defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI) 
+#if defined(BOARD_EVB) || defined(BOARD_SMART_DEVICE) || defined(BOARD_SABRE_AI) || defined(BOARD_SABRE_LITE)
 extern int pcie_test(void);
 #endif
 
@@ -138,6 +140,15 @@ const menuitem_t k_menuItems[] = {
         
         // Tests that apply only to particular boards for either the mx6dq or mx6sdl.
 #if defined(BOARD_EVB)
+        DEFINE_TEST_MENU_ITEM("a",  "audio test",       audio_test),
+        DEFINE_TEST_MENU_ITEM("mi", "mipi test",        mipi_test),
+        DEFINE_TEST_MENU_ITEM("pc", "pcie test",        pcie_test),
+        DEFINE_TEST_MENU_ITEM("gp", "gpmi test",        gpmi_test),
+        DEFINE_TEST_MENU_ITEM("n",  "spi nor test",     spi_test),
+        DEFINE_TEST_MENU_ITEM("en", "enet test",    	enet_test),
+        DEFINE_TEST_MENU_ITEM("us", "usb test",     	usb_test),
+        DEFINE_TEST_MENU_ITEM("ca", "camera test",      camera_test),
+#elif defined(BOARD_SABRE_LITE) //5555555555555555555555555
         DEFINE_TEST_MENU_ITEM("a",  "audio test",       audio_test),
         DEFINE_TEST_MENU_ITEM("mi", "mipi test",        mipi_test),
         DEFINE_TEST_MENU_ITEM("pc", "pcie test",        pcie_test),

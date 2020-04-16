@@ -42,6 +42,8 @@ extern "C" void gpio_led_test(void);
 #if CHIP_MX6DQ || CHIP_MX6SDL
 #   if BOARD_EVB
 #       define LED_PIN GPIO_MAKE_PIN(3, 25)
+#   elif BOARD_SABRE_LITE
+#       define LED_PIN GPIO_MAKE_PIN(3, 25) // 555555555555555555: error!!!!
 #   elif BOARD_SMART_DEVICE
 #       define LED_PIN GPIO_MAKE_PIN(1, 2) // green is 1,2; red is 1,1
 #   elif BOARD_SABRE_AI

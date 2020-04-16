@@ -29,6 +29,7 @@
  */
 
 #include "sdk.h"
+#include "mx6dq/registers/regsiomuxc.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Code
@@ -47,21 +48,10 @@ void imx_KSZ9021RN_reset(void)
     //hal_delay_us(1000000);
     //max7310_set_gpio_output(0, 2, GPIO_HIGH_LEVEL);
 #ifdef BOARD_SABRE_LITE
-    // Config gpio3_GPIO[23] to pad EIM_D23(D25)
-    gpio_set_gpio(GPIO_PORT3, 23);
-    HW_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_WR(
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_HYS_V(ENABLED) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_PUS_V(100K_OHM_PU) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_PUE_V(PULL) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_PKE_V(ENABLED) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_ODE_V(DISABLED) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_SPEED_V(100MHZ) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_DSE_V(40_OHM) |
-            BF_IOMUXC_SW_PAD_CTL_PAD_EIM_DATA23_SRE_V(SLOW));
-    gpio_set_direction(GPIO3, 23, GPIO_GDIR_OUTPUT);
-    gpio_set_level(GPIO3, 23, GPIO_LOW_LEVEL);
-    hal_delay_us(1000000);      // hold in reset for a delay
-    gpio_set_level(GPIO3, 23, GPIO_LOW_HIGH);
+    gpio_set_level(GPIO_PORT3, 23, GPIO_LOW_LEVEL);
+    hal_delay_us(100000);      // hold in reset for a delay
+    gpio_set_level(GPIO_PORT3, 23, GPIO_HIGH_LEVEL);
+    hal_delay_us(10000);
 #endif
 }
 
@@ -90,6 +80,34 @@ void imx_enet_iomux(void)
 {
     enet_iomux_config();        // iomux tool output
 
+#ifdef BOARD_SABRE_LITE
+    gpio_set_gpio(GPIO_PORT6, 30);
+    gpio_set_gpio(GPIO_PORT6, 25);
+    gpio_set_gpio(GPIO_PORT6, 27);
+    gpio_set_gpio(GPIO_PORT6, 28);
+    gpio_set_gpio(GPIO_PORT6, 29);
+    gpio_set_gpio(GPIO_PORT6, 24);
+    gpio_set_gpio(GPIO_PORT3, 23);
+
+	gpio_set_direction(GPIO_PORT3, 23, GPIO_GDIR_OUTPUT);
+    gpio_set_direction(GPIO_PORT6, 30, GPIO_GDIR_OUTPUT);
+    gpio_set_direction(GPIO_PORT6, 25, GPIO_GDIR_OUTPUT);
+    gpio_set_direction(GPIO_PORT6, 27, GPIO_GDIR_OUTPUT);
+    gpio_set_direction(GPIO_PORT6, 28, GPIO_GDIR_OUTPUT);
+    gpio_set_direction(GPIO_PORT6, 29, GPIO_GDIR_OUTPUT);
+
+    // set correct phy address and operation mode in KSZ9021RN
+    gpio_set_level(GPIO_PORT3, 23, GPIO_LOW_LEVEL);
+    gpio_set_level(GPIO_PORT6, 30, GPIO_HIGH_LEVEL);
+    gpio_set_level(GPIO_PORT6, 25, GPIO_HIGH_LEVEL);
+    gpio_set_level(GPIO_PORT6, 27, GPIO_HIGH_LEVEL);
+    gpio_set_level(GPIO_PORT6, 28, GPIO_HIGH_LEVEL);
+    gpio_set_level(GPIO_PORT6, 29, GPIO_HIGH_LEVEL);
+
+    gpio_set_direction(GPIO_PORT6, 24, GPIO_GDIR_OUTPUT);
+    gpio_set_level(GPIO_PORT6, 24, GPIO_HIGH_LEVEL);
+#endif
+
 #ifdef BOARD_SABRE_AI
     /* Select ENET, ENET_CAN1_STEER(PORT_EXP_B3) */
     max7310_set_gpio_output(1, 2, GPIO_LOW_LEVEL);
@@ -100,9 +118,21 @@ void imx_enet_iomux(void)
 #endif
 }
 
+#ifdef BOARD_SABRE_LITE
+void imx_enet_iomux_reconfig(void)
+{
+	// reconfigure RGMII_RD0-3, RGMII_RXC and RGMII_RX_CTL pads initially configured as GPIOs
+    enet_iomux_reconfig();
+}
+#endif
+
 void imx_enet_phy_reset(void)
 {
+#ifdef BOARD_SABRE_LITE
+	imx_KSZ9021RN_reset();
+#else
 	imx_ar8031_reset();
+#endif
 }
 ////////////////////////////////////////////////////////////////////////////////
 // EOF

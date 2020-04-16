@@ -126,11 +126,11 @@ CXXFLAGS += -fno-exceptions -fno-rtti
 # Link against libc and libgcc. Specify paths to libc in newlib build
 # directory.  Need to specify libgcc since our linker does not link
 # against anything, even compiler libs because of -nostdlib.
-LDADD += -lm -lstdc++ -lc -lgcc
+LDADD += -static -lm -lstdc++ -lc -lgcc
 
 # These include paths have to be quoted because they may contain spaces,
 # particularly under cygwin.
-LDINC += -L '$(LIBGCC_LDPATH)' -L '$(LIBC_LDPATH)'
+LDINC += -L '$(LIBGCC_LDPATH)' -L '$(LIBC_LDPATH)'  -L /opt/CodeSourcery/Sourcery_CodeBench_Lite_for_ARM_EABI/arm-none-eabi/lib -L /opt/CodeSourcery/Sourcery_CodeBench_Lite_for_ARM_EABI/lib/gcc/arm-none-eabi/4.7.2
 
 # Indicate gcc and newlib std includes as -isystem so gcc tags and
 # treats them as system directories.

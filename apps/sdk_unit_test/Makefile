@@ -96,8 +96,22 @@ ifeq "$(BOARD)" "evb"
         $(SDK_LIB_ROOT)/drivers/camera/test
 endif
 
+#555555555555555555555555
+# Tests that are only available on the evb.
+ifeq "$(BOARD)" "sabre_lite"
+    SUBDIRS += \
+        $(SDK_LIB_ROOT)/drivers/enet/test \
+        $(SDK_LIB_ROOT)/drivers/gpmi/test \
+        $(SDK_LIB_ROOT)/drivers/keypad/test \
+        $(SDK_LIB_ROOT)/drivers/pcie/test \
+        $(SDK_LIB_ROOT)/drivers/spi/test \
+        $(SDK_LIB_ROOT)/drivers/camera/test
+endif
+
 # Tests that apply to either evb or sabre_ai.
-ifneq "$(filter evb sabre_ai,$(BOARD))" ""
+#5555555555555555555555
+#ifneq "$(filter evb sabre_ai,$(BOARD))" ""
+ifneq "$(filter evb sabre_ai sabre_lite, $(BOARD))" ""
     SUBDIRS += \
         $(SDK_LIB_ROOT)/drivers/mipi/test \
         $(SDK_LIB_ROOT)/drivers/usb/test

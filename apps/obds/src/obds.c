@@ -530,6 +530,56 @@ const menuitem_t Menu_Commands[] =
         MENU_MAKE_MENUITEM_END()
     };
 
+#elif defined(BOARD_SABRE_LITE)
+
+    const menuitem_t CPU_Tests[] =
+    {
+        MENU_MAKE_MENUITEM_GROUP("CPU Board Tests"),
+        MENU_MAKE_MENUITEM("01", g_program_board_id_test_name, run_test, program_board_id),
+        MENU_MAKE_MENUITEM("02", g_program_mac_address_test_name, run_test, program_mac_address),
+        MENU_MAKE_MENUITEM("03", g_ddr_test_name, run_test, ddr_test),
+        MENU_MAKE_MENUITEM("04", g_snvs_srtc_test_name, run_test, snvs_srtc_test),
+        MENU_MAKE_MENUITEM("05", g_KSZ9021RN_test_name, run_test, KSZ9021RN_test_main),
+        MENU_MAKE_MENUITEM("06", g_eim_NOR_flash_test_name, run_test, eim_nor_flash_test),
+        MENU_MAKE_MENUITEM("07", g_max7310_i2c_device_id_test_name, run_test, max7310_i2c_device_id_check),
+        MENU_MAKE_MENUITEM("08", g_hs_tsc_p1003_i2c_device_id_test_name, run_test, i2c_device_id_check_p1003),
+        MENU_MAKE_MENUITEM("09", g_pmic_pf0100_i2c_device_id_test_name, run_test, pf0100_i2c_device_id_check),
+        MENU_MAKE_MENUITEM("10", g_spi_nor_test_name, run_test, spi_nor_test),
+        MENU_MAKE_MENUITEM("11", g_usb_otg_dev_enum_test_name, run_test, usbo_dev_enum_test),
+        MENU_MAKE_MENUITEM("12", g_uart_test_name, run_test, uart_test),
+        MENU_MAKE_MENUITEM("13", g_gpio_led_test_name, run_test, gpio_led_test),
+        MENU_MAKE_MENUITEM("14", g_ipu_display_tests_name, run_test, ipu_display_test_main),
+#if defined(CHIP_MX6DQ)
+        MENU_MAKE_MENUITEM("15", g_sata_test_name, run_test, sata_test),
+#endif
+        MENU_MAKE_MENUITEM_END()
+    };
+
+    const menuitem_t MainBoard_Tests[] =
+    {
+        MENU_MAKE_MENUITEM_GROUP("Main Board Tests"),
+        MENU_MAKE_MENUITEM("20", g_video_dec_test_name, run_test, adv7180_test_main),
+        MENU_MAKE_MENUITEM("21", g_audio_esai_test_name, run_test, esai_test),
+        MENU_MAKE_MENUITEM("22", g_usb_host1_dev_enum_test_name, run_test, usbh_dev_enum_test),
+        MENU_MAKE_MENUITEM("23", g_cs42888_i2c_device_id_test_name, run_test, i2c_device_check_cs42888),
+        MENU_MAKE_MENUITEM("24", g_isl29023_i2c_device_id_test_name, run_test, i2c_device_id_check_isl29023),
+        MENU_MAKE_MENUITEM("25", g_mag3110_i2c_device_id_test_name, run_test, i2c_device_id_check_mag3110),
+        MENU_MAKE_MENUITEM("26", g_mma8451_i2c_device_id_test_name, run_test, i2c_device_id_check_MMA8451),
+        MENU_MAKE_MENUITEM("27", g_android_buttons_test_name, run_test, android_buttons_test),
+        MENU_MAKE_MENUITEM("28", g_flexcan_test_name, run_test, flexcan_test),
+        MENU_MAKE_MENUITEM("29", g_ard_main_board_reset_button_test, run_test, ard_mb_reset_test),
+        MENU_MAKE_MENUITEM("30", g_ard_mb_expander_reset_test_name, run_test, ard_mb_expander_reset_test),
+        MENU_MAKE_MENUITEM("31", g_mmcsd_test_name, run_test, mmcsd_test),
+        MENU_MAKE_MENUITEM_END()
+    };
+
+    const menuitem_t Display_Test[] =
+    {
+        MENU_MAKE_MENUITEM("49", g_ipu_display_tests_name, run_test, ipu_display_test_main),
+        MENU_MAKE_MENUITEM_END()
+    };
+
+
 #elif defined(BOARD_SMART_DEVICE)
 
     const menuitem_t CPU_Tests[] =

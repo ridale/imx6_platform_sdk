@@ -41,6 +41,11 @@
 #define MAX7310_NBR 0
 #endif
 
+//5555555555555555555
+#if defined(BOARD_SABRE_LITE)
+#define MAX7310_NBR 0
+#endif
+
 /* For the ARD board which has 3 MAX7310 */
 #ifdef BOARD_SABRE_AI
 #define MAX7310_NBR 3

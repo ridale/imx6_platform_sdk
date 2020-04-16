@@ -56,6 +56,13 @@ test_return_t gpio_led_test(void)
             BF_IOMUXC_SW_MUX_CTL_PAD_DISP0_DATA21_MUX_MODE_V(ALT5));   // GPIO5[15]
     gpio_inst = HW_GPIO5;
     bit = 15;
+
+//555555555555555555555  error !!!!!!
+#elif defined(BOARD_SABRE_LITE)
+    mux_val = HW_IOMUXC_SW_MUX_CTL_PAD_DISP0_DATA21_RD();               // save the original value
+    gpio_inst = HW_GPIO5;
+    bit = 15;
+
 #elif defined(BOARD_EVB)
     mux_val = HW_IOMUXC_SW_MUX_CTL_PAD_EIM_DATA25_RD();                 // save the original value
     HW_IOMUXC_SW_MUX_CTL_PAD_EIM_DATA25_WR(
